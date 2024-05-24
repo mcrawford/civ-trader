@@ -1,0 +1,17 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node16",
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "node16",
+    "target": "es2022",
+    "lib": ["es2022", "DOM"]
+  }
+}

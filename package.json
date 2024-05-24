@@ -1,0 +1,21 @@
+{
+  "name": "civ-trader",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "author": "matthew.crawford@mlb.com",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "trade": "ts-node index.ts",
+    "prettier": "npx prettier --write ."
+  },
+  "dependencies": {
+    "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  }
+}
