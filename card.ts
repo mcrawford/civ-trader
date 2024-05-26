@@ -30,17 +30,17 @@ export const CivilWar: Calamity = {
 export const Flood: Calamity = { name: 'Flood', value: 0, isTradable: false }
 export const Epidemic: Calamity = {
   name: 'Epidemic',
-  value: 0,
+  value: -20,
   isTradable: true,
 }
 export const CivilDisorder: Calamity = {
   name: 'Civil Disorder',
-  value: 0,
+  value: -20,
   isTradable: true,
 }
 export const Iconoclasm: Calamity = {
   name: 'Iconoclasm & Heresy',
-  value: 0,
+  value: -20,
   isTradable: true,
 }
-export const Piracy: Calamity = { name: 'Piracy', value: 0, isTradable: true }
+export const Piracy: Calamity = { name: 'Piracy', value: -20, isTradable: true }

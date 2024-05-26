@@ -1,38 +1,43 @@
 import {
   Bronze,
+  CivilDisorder,
+  Cloth,
   Epidemic,
+  Gems,
   Gold,
-  Hides,
+  Grain,
+  Hides, Iconoclasm,
   Iron,
   Ochre,
-  Papyrus,
-  Piracy,
+  Papyrus, Piracy,
   Salt,
+  Spice
 } from './card'
 import { Player } from './player'
 import { shuffleArray } from './utils'
 
+const africa = new Player('Africa', [
+  Gems, Ochre, Iron, Bronze, Grain, Salt, Iron, Hides, Piracy
+])
+const illyria = new Player('Illyria', [
+  Salt, Gold, Cloth, Grain, Salt, Iron, Ochre
+])
+const thrace = new Player('Thrace', [
+  Iron, Bronze, Bronze, Bronze, Spice, Spice, Grain, Salt, Papyrus, Hides
+])
 const asia = new Player('Asia', [
-  Bronze,
-  Salt,
-  Ochre,
-  Ochre,
-  Hides,
-  Iron,
-  Epidemic,
+  Bronze, Bronze, Spice, Spice, Gems, Gems, Gems, Spice, Grain, Salt, Papyrus, Ochre, Gold
 ])
-const egypt = new Player('Egypt', [Bronze, Salt, Ochre, Papyrus, Iron, Piracy])
-const assyria = new Player('Assyria', [
-  Gold,
-  Bronze,
-  Bronze,
-  Salt,
-  Ochre,
-  Papyrus,
+const babylon = new Player('Babylon', [
+  Cloth, Cloth, Cloth, Cloth, Cloth, Cloth, Grain, Salt, Papyrus, Hides, Gold
 ])
-const players = [asia, egypt, assyria]
-const millisToTrade = 5000
+const crete = new Player('Crete', [
+  Papyrus, Papyrus, Grain, Salt, Iron, Hides, Epidemic
+])
 
+const players = [africa, illyria, thrace, asia, crete]
+
+const millisToTrade = 60 * 1000
 const start = Date.now()
 let tradesConsidered = 0
 let tradesCompleted = 0

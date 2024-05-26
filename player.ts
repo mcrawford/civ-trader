@@ -47,7 +47,7 @@ export class Player {
       const i = this.hand.indexOf(c)
       if (i > -1) this.hand.splice(i, 1)
     })
-    this.calamitiesReceived.push(...incomingOffer.filter((c) => c.value === 0))
+    this.calamitiesReceived.push(...incomingOffer.filter((c) => c.value <= 0))
     this.hand = [...this.hand, ...incomingOffer.filter((c) => c.value > 0)]
   }
 
