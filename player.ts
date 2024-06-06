@@ -1,23 +1,11 @@
-import {
-  Bronze,
-  Card,
-  Cloth,
-  Gems,
-  Gold,
-  Grain,
-  Hides,
-  Iron,
-  Ochre,
-  Papyrus,
-  Salt,
-  Spice,
-} from './card'
-import { shuffleArray } from './utils'
+import { Card } from './card'
+import { evaluateCards, shuffleArray } from './utils'
+import { Offer } from './offer'
 
 export class Player {
   name: string
   hand: Card[]
-  offer: Card[]
+  offer: Offer
   calamitiesReceived: Card[] = []
 
   constructor(name: string, hand: Card[]) {
@@ -27,55 +15,37 @@ export class Player {
 
   createOffer() {
     shuffleArray(this.hand)
-    this.offer = this.hand.slice(0, 3)
+    this.offer = new Offer(this.hand.slice(0, 3))
   }
 
-  likesOffer(incomingOffer: Card[]): boolean {
+  likesOffer(incomingOffer: Offer): boolean {
     const handWithoutOffer = this.hand.slice()
-    this.offer.forEach((c) => {
+    this.offer.cards.forEach((c) => {
       const i = handWithoutOffer.indexOf(c)
       if (i > -1) handWithoutOffer.splice(i, 1)
     })
-    const handWithNewOffer = [...handWithoutOffer, ...incomingOffer]
-    const valueNewHand = this.evaluateHand(handWithNewOffer)
+    const handWithNewOffer = [...handWithoutOffer, incomingOffer.named]
+    const valueNewHand = this.evaluateHand(handWithNewOffer) + incomingOffer.total - incomingOffer.named.value
 
     return valueNewHand > this.evaluateHand(this.hand)
   }
 
-  tradeFor(incomingOffer: Card[]) {
-    this.offer.forEach((c) => {
+  tradeFor(incomingOffer: Offer) {
+    this.offer.cards.forEach((c) => {
       const i = this.hand.indexOf(c)
       if (i > -1) this.hand.splice(i, 1)
     })
-    this.calamitiesReceived.push(...incomingOffer.filter((c) => c.value <= 0))
-    this.hand = [...this.hand, ...incomingOffer.filter((c) => c.value > 0)]
+    this.calamitiesReceived.push(...incomingOffer.cards.filter((c) => c.value <= 0))
+    this.hand = [...this.hand, ...incomingOffer.cards.filter((c) => c.value > 0)]
   }
 
   evaluateHand(hand: Card[]): number {
-    const numHides = hand.filter((c) => c === Hides).length
-    const numOchre = hand.filter((c) => c === Ochre).length
-    const numIron = hand.filter((c) => c === Iron).length
-    const numPapyrus = hand.filter((c) => c === Papyrus).length
-    const numSalt = hand.filter((c) => c === Salt).length
-    const numGrain = hand.filter((c) => c === Grain).length
-    const numCloth = hand.filter((c) => c === Cloth).length
-    const numBronze = hand.filter((c) => c === Bronze).length
-    const numSpice = hand.filter((c) => c === Spice).length
-    const numGems = hand.filter((c) => c === Gems).length
-    const numGold = hand.filter((c) => c === Gold).length
+    const cardsValue = evaluateCards(hand)
+    const numCalamities = hand.filter(c => c.value === 0).length
 
     return (
-      numHides * numHides * Hides.value +
-      numOchre * numOchre * Ochre.value +
-      numIron * numIron * Iron.value +
-      numPapyrus * numPapyrus * Papyrus.value +
-      numSalt * numSalt * Salt.value +
-      numGrain * numGrain * Grain.value +
-      numCloth * numCloth * Cloth.value +
-      numBronze * numBronze * Bronze.value +
-      numSpice * numSpice * Spice.value +
-      numGems * numGems * Gems.value +
-      numGold * numGold * Gold.value
+      cardsValue +
+      numCalamities * -10
     )
   }
 }

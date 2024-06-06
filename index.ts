@@ -1,20 +1,6 @@
-import {
-  Bronze,
-  CivilDisorder,
-  Cloth,
-  Epidemic,
-  Gems,
-  Gold,
-  Grain,
-  Hides, Iconoclasm,
-  Iron,
-  Ochre,
-  Papyrus, Piracy,
-  Salt,
-  Spice
-} from './card'
+import { Bronze, Cloth, Epidemic, Gems, Gold, Grain, Hides, Iron, Ochre, Papyrus, Piracy, Salt, Spice } from './card'
 import { Player } from './player'
-import { shuffleArray } from './utils'
+import { shuffleArray, sortCards } from './utils'
 
 const africa = new Player('Africa', [
   Gems, Ochre, Iron, Bronze, Grain, Salt, Iron, Hides, Piracy
@@ -35,14 +21,14 @@ const crete = new Player('Crete', [
   Papyrus, Papyrus, Grain, Salt, Iron, Hides, Epidemic
 ])
 
-const players = [africa, illyria, thrace, asia, crete]
+const players = [africa, illyria]
 
-const millisToTrade = 60 * 1000
+const millisToTrade = 10 * 1000
 const start = Date.now()
 let tradesConsidered = 0
 let tradesCompleted = 0
 
-while (Date.now() - start < millisToTrade) {
+while (Date.now() - start < 10) {
   const playersCopy = players.slice()
   shuffleArray(playersCopy)
   while (playersCopy.length > 1) {
@@ -54,7 +40,7 @@ while (Date.now() - start < millisToTrade) {
     tradesConsidered++
     if (p1.likesOffer(p2.offer) && p2.likesOffer(p1.offer)) {
       console.log(
-        `${p1.name} trades ${p1.offer.map((c) => c.name).join(', ')} to ${p2.name} for ${p2.offer.map((c) => c.name).join(', ')}`,
+        `${p1.name} trades ${p1.offer.cards.map((c) => c.name).join(', ')} to ${p2.name} for ${p2.offer.cards.map((c) => c.name).join(', ')}`,
       )
       p1.tradeFor(p2.offer)
       p2.tradeFor(p1.offer)
@@ -67,10 +53,11 @@ console.log(
   `${tradesConsidered} trades considered, ${tradesCompleted} completed`,
 )
 players.forEach((player) => {
+
   console.log(
     player.name,
     player.hand
-      .sort((c1, c2) => c1.value - c2.value)
+      .sort(sortCards)
       .map((c) => c.name)
       .join(', '),
     player.calamitiesReceived.map((c) => c.name),
